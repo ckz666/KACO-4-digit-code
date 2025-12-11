@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>KACO blueplanet NX3 M2 SN → Code</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #020617;
+      --accent: #22c55e;
+      --accent-soft: rgba(34, 197, 94, 0.12);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+      --error: #f97373;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0, #020617 55%, #020617 100%);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+    .container { width: 100%; max-width: 520px; }
+    .card {
+      background: linear-gradient(145deg, rgba(15,23,42,0.96), rgba(15,23,42,0.99));
+      border-radius: var(--radius);
+      padding: 18px 16px 14px;
+      box-shadow:
+        0 24px 55px rgba(0,0,0,0.8),
+        0 0 0 1px rgba(148,163,184,0.12);
+      border: 1px solid rgba(148,163,184,0.22);
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .logo-pill {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 20% 0, #4ade80, #16a34a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #022c22;
+      font-weight: 800;
+      font-size: 18px;
+      box-shadow: 0 10px 30px rgba(34,197,94,0.65);
+    }
+    h1 {
+      font-size: 18px;
+      margin: 0;
+    }
+    .subtitle {
+      margin: 1px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    label {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 6px;
+      color: var(--muted);
+    }
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 9px 11px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,0.9);
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      transition: border 0.15s, box-shadow 0.15s, background 0.15s;
+    }
+    input[type="text"]::placeholder { color: #6b7280; }
+    input[type="text"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(34,197,94,0.35);
+      background: rgba(15,23,42,0.98);
+    }
+    button {
+      padding: 0 14px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #022c22;
+      font-weight: 600;
+      font-size: 13px;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow:
+        0 10px 25px rgba(34,197,94,0.6),
+        0 0 0 1px rgba(22,163,74,0.75);
+      transition: transform 0.1s, box-shadow 0.15s, filter 0.15s;
+      height: 36px;
+    }
+    button:active {
+      transform: translateY(1px) scale(0.99);
+      box-shadow:
+        0 4px 12px rgba(34,197,94,0.7),
+        0 0 0 1px rgba(22,163,74,0.8);
+      filter: brightness(0.97);
+    }
+    .chip-row {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .chip {
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.3);
+    }
+    .chip strong { color: var(--accent); }
+    .result-card {
+      margin-top: 10px;
+      padding: 9px 10px;
+      border-radius: 11px;
+      background: radial-gradient(circle at top left, rgba(34,197,94,0.18), rgba(15,23,42,0.95));
+      border: 1px solid rgba(74,222,128,0.35);
+      font-size: 13px;
+      word-break: break-all;
+    }
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .result-label {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(209,250,229,0.9);
+    }
+    .result-code {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: #bbf7d0;
+    }
+    .details {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed rgba(148,163,184,0.4);
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .details-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 3px;
+      gap: 10px;
+    }
+    .details-key { color: #9ca3af; }
+    .details-value {
+      text-align: right;
+      color: #e5e7eb;
+    }
+    .error {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--error);
+    }
+    .disclaimer {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(31,41,55,0.9);
+      font-size: 10px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .disclaimer strong { color: #e5e7eb; }
+    @media (max-width: 480px) {
+      .card { padding: 16px 14px 12px; }
+      .input-row { flex-direction: column; }
+      button {
+        width: 100%;
+        justify-content: center;
+      }
+      .result-code { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <div class="logo-pill">K</div>
+        <div>
+          <h1>KACO blueplanet NX3 M2 SN → Code</h1>
+          <p class="subtitle">The 4-digit device code is calculated locally in the browser.</p>
+        </div>
+      </div>
+
+      <label for="isn">SN / Serial number</label>
+      <div class="input-row">
+        <input id="isn" type="text" placeholder="e.g. 20.0NX312077827">
+        <button type="button" onclick="onGenerate()">Calculate</button>
+      </div>
+
+     
+
+      <div id="result" class="result-card" style="display:none;">
+        <div class="result-header">
+          <div class="result-label">Device code</div>
+          <div id="code" class="result-code">0000</div>
+        </div>
+        <div class="details">
+          <div class="details-row">
+            <div class="details-key">Encrypted (Base64)</div>
+            <div id="encrypted" class="details-value"></div>
+          </div>
+          <div class="details-row">
+            <div class="details-key">MD5</div>
+            <div id="md5" class="details-value"></div>
+          </div>
+          <div class="details-row">
+            <div class="details-key">L16</div>
+            <div id="l16" class="details-value"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="error" class="error" style="display:none;"></div>
+
+      <div class="disclaimer">
+        <strong>Disclaimer:</strong> This tool is provided for informational and testing purposes only. 
+        Any use is at your own risk. The author assumes no responsibility or liability for any loss, 
+        damage, misconfiguration, or other consequences resulting from the use of this tool. 
+        This tool is not affiliated with or endorsed by KACO new energy GmbH.
+      </div>
+    </div>
+  </div>
+
+  <!-- CryptoJS (AES + MD5) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+  <script>
+    const KEY = "KA%C!200@121^23_"; // 16 bytes
+
+    function padPKCS7(str) {
+      const blockSize = 16;
+      const padLen = blockSize - (str.length % blockSize);
+      const padChar = String.fromCharCode(padLen);
+      return str + padChar.repeat(padLen);
+    }
+
+    function generatePassword(isn) {
+      const plainPadded = padPKCS7(isn);
+
+      const keyWords = CryptoJS.enc.Utf8.parse(KEY);
+      const plainWords = CryptoJS.enc.Utf8.parse(plainPadded);
+
+      const encrypted = CryptoJS.AES.encrypt(plainWords, keyWords, {
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.NoPadding
+      });
+
+      const encryptedText = encrypted.toString();
+      const md5 = CryptoJS.MD5(encryptedText).toString().toUpperCase();
+      const l16 = md5.substring(8, 24);
+      const l4 = l16.substring(3, 7);
+
+      return { encryptedText, md5, l16, l4 };
+    }
+
+    function onGenerate() {
+      const isnInput = document.getElementById("isn");
+      const isn = isnInput.value.trim();
+      const resultCard = document.getElementById("result");
+      const errorBox = document.getElementById("error");
+
+      if (!isn) {
+        resultCard.style.display = "none";
+        errorBox.style.display = "block";
+        errorBox.textContent = "Please enter a serial number.";
+        return;
+      }
+
+      try {
+        const res = generatePassword(isn);
+
+        document.getElementById("code").textContent = res.l4;
+        document.getElementById("encrypted").textContent = res.encryptedText;
+        document.getElementById("md5").textContent = res.md5;
+        document.getElementById("l16").textContent = res.l16;
+
+        errorBox.style.display = "none";
+        resultCard.style.display = "block";
+      } catch (e) {
+        resultCard.style.display = "none";
+        errorBox.style.display = "block";
+        errorBox.textContent = "Error while calculating the code: " + e;
+      }
+    }
+  </script>
+</body>
+</html>
