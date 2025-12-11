@@ -4,7 +4,7 @@ This repository provides a small, browser‑based helper tool to derive the 4‑
 Background
 The logic implemented here is based on the excellent reverse engineering work by Jan Dittmer in the following project:
 
-trixing/kaco-http – Kaco Blueplanet NX3 M2 HTTP Protocol
+[trixing/kaco-http](https://github.com/trixing/kaco-http)
 
 In that repository you will find a detailed description of the HTTP interface, the Android app behaviour, and a Python implementation of the password generation algorithm (kaco_pass.py).
 
